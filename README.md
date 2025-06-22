@@ -15,3 +15,8 @@ yarn test
 pnpm test
 # or
 bun test
+
+
+# this.savedForLater.push(this.items[itemIndex]);
+#    this.items.splice(itemIndex, 1);
+#     this.calculateTotal();
