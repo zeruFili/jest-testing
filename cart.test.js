@@ -20,13 +20,13 @@ describe('Cart', () => {
         });
 
         test('throws error for invalid item', () => {
-            expect(() => cart.addItem(null, 1)).toThrow("Item must be an object");
-            expect(() => cart.addItem({ name: 'Apple' }, 1)).toThrow("'price'");
+            expect(() => cart.addItem(null, 1)).toThrow("Item must be an object with 'name' and 'price'.");
+            expect(() => cart.addItem({ name: 'Apple' }, 1)).toThrow("Item must be an object with 'name' and 'price'.");
         });
 
         test('throws error for invalid quantity', () => {
-            expect(() => cart.addItem({ name: 'Apple', price: 1.5 }, -1)).toThrow("positive integer");
-            expect(() => cart.addItem({ name: 'Apple', price: 1.5 }, 1.5)).toThrow("integer");
+            expect(() => cart.addItem({ name: 'Apple', price: 1.5 }, -1)).toThrow("Quantity must be a positive integer.");
+            expect(() => cart.addItem({ name: 'Apple', price: 1.5 }, 1.5)).toThrow("Quantity must be a positive integer.");
         });
     });
 
@@ -46,11 +46,11 @@ describe('Cart', () => {
         });
 
         test('throws error if item does not exist', () => {
-            expect(() => cart.removeItem('Banana')).toThrow("Item not found");
+            expect(() => cart.removeItem('Banana')).toThrow("Item not found in cart.");
         });
 
         test('throws error if removing more than available', () => {
-            expect(() => cart.removeItem('Apple', 4)).toThrow("Cannot remove more");
+            expect(() => cart.removeItem('Apple', 4)).toThrow("Cannot remove more items than exist in cart.");
         });
     });
 
@@ -64,6 +64,10 @@ describe('Cart', () => {
             cart.moveToCart('Apple');
             expect(cart.getItems()).toEqual([{ name: 'Apple', price: 1.5, quantity: 2 }]);
             expect(cart.getSavedForLater()).toEqual([]);
+        });
+
+        test('throws error if moving item not found in saved items', () => {
+            expect(() => cart.moveToCart('Banana')).toThrow("Item not found in saved items.");
         });
     });
 
