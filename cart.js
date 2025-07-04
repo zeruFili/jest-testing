@@ -8,8 +8,17 @@ class Cart {
 
     // Add item to cart (with validation)
     addItem(item, quantity = 1) {
-        if (!item || typeof item !== 'object' || !item.name || item.price == null) {
-            throw new Error("Item must be an object with 'name' and 'price'.");
+        if (!item) {
+            throw new Error("Item must be provided.");
+        }
+        if (typeof item !== 'object') {
+            throw new Error("Item must be an object.");
+        }
+        if (!item.name) {
+            throw new Error("Item must have a 'name' property.");
+        }
+        if (item.price == null) {
+            throw new Error("Item must have a 'price' property.");
         }
         if (quantity <= 0 || !Number.isInteger(quantity)) {
             throw new Error("Quantity must be a positive integer.");
