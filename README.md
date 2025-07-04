@@ -35,4 +35,4 @@ yarn test
 # or
 pnpm test
 # or
-bun test 
+bun test
