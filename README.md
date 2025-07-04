@@ -21,9 +21,9 @@ To use the shopping cart class, clone the repository and install any required de
 git clone https://github.com/zeruFili/jest-testing.git
 cd jest-testing
 
-# npm install
+ npm install
  or
-# yarn install
+ yarn install
 # or
 pnpm install
 # or
