@@ -20,8 +20,8 @@ describe('Cart', () => {
         });
 
         test('throws error for invalid item', () => {
-            expect(() => cart.addItem(null, 1)).toThrow("Item must be an object with 'name' and 'price'.");
-            expect(() => cart.addItem({ name: 'Apple' }, 1)).toThrow("Item must be an object with 'name' and 'price'.");
+            expect(() => cart.addItem(null, 1)).toThrow("Item must be provided.");
+            expect(() => cart.addItem({ name: 'Apple' }, 1)).toThrow("Item must have a 'price' property.");
         });
 
         test('throws error for invalid quantity', () => {
