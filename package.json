@@ -1,7 +1,7 @@
 {
   "name": "class-cart",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "cart.js",
   "scripts": {
     "test": "jest"
   },
