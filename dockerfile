@@ -1,20 +1,34 @@
-# 1️⃣ Use official Node.js LTS image
-FROM node:20-alpine
+FROM jenkins/jenkins:2.414.2-jdk11
 
-# 2️⃣ Set working directory
-WORKDIR /app
+USER root
 
-# 3️⃣ Copy package files
-COPY package*.json ./
+# Install basic dependencies
+RUN apt-get update && apt-get install -y \
+    lsb-release \
+    curl \
+    gnupg \
+    ca-certificates
 
-# 4️⃣ Install all dependencies (dev included, since you need jest)
-RUN npm install
+# Install Node.js (LTS)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
-# 5️⃣ Copy the rest of the app
-COPY . .
+# Install Docker CLI
+RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
+    https://download.docker.com/linux/debian/gpg
 
-# 6️⃣ Expose the port if your app listens (optional)
-# EXPOSE 3000
+RUN echo "deb [arch=$(dpkg --print-architecture) \
+    signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
+    https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" \
+    > /etc/apt/sources.list.d/docker.list
 
-# 7️⃣ Start the app
-CMD ["node", "cart.js"]
+RUN apt-get update && apt-get install -y docker-ce-cli
+
+# Back to Jenkins user (IMPORTANT for security)
+USER jenkins
+
+# Install Jenkins plugins
+RUN jenkins-plugin-cli --plugins \
+    blueocean:1.25.3 \
+    docker-workflow:1.28
